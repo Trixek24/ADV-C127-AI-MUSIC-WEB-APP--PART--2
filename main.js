@@ -1,4 +1,5 @@
 song_status = "";
+song_status2 = "";
 
 song1 = "";
 song2 = "";
@@ -8,6 +9,7 @@ left_wrist_x = 0;
 left_wrist_y = 0;
 
 scoreLeftWrist = 0;
+scoreRightWrist = 0;
 
 function preload()
 {
@@ -38,11 +40,24 @@ function draw()
     song_status = song1.isPlaying();
     if(scoreLeftWrist > 0.2)
     {
-    circle(leftWristX,leftWristY,20);
-    if (song_status == false) {
         song2.stop();
+    circle(left_wrist_x,left_wrist_y,20);
+    if (song_status == false) {
+        
         song1.play();
         document.getElementById("song").innerHTML = "Song One Is Playing";
+    }
+    }
+
+    song_status2 = song2.isPlaying();
+    if(scoreRightWrist > 0.2)
+    {
+        song1.stop();
+    circle(right_wrist_x,right_wrist_y,20);
+    if (song_status2 == false) {
+        
+        song2.play();
+        document.getElementById("song").innerHTML = "Song Two Is Playing";
     }
     }
 
@@ -59,8 +74,9 @@ function gotposes(results)
     if(results.length > 0)
     {
         console.log(results);
+        scoreRightWrist = results[0].pose.keypoints[10].score;
         scoreLeftWrist = results[0].pose.keypoints[9].score;
-        console.log("scoreLeftWrist = " + scoreLeftWrist);
+        console.log("scoreRightWrist = " + scoreRightWrist + " scoreLeftWrist = " + scoreLeftWrist);
 
         right_wrist_x = results[0].pose.rightWrist.x;
         right_wrist_y = results[0].pose.rightWrist.y;
